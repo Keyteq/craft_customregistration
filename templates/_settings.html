@@ -1,0 +1,64 @@
+{% import "_includes/forms" as forms %}
+{{ forms.textField({
+        label: "Registration Message Subject"|t,
+        id: 'registrationMessageSubject',
+        name: 'registrationMessageSubject',
+        instructions: "Input your subject"|t,
+        value: settings.registrationMessageSubject,
+        errors: settings.getErrors('registrationMessageSubject')
+    }) 
+}}
+
+{{ forms.textarea({
+        label: "Registration Message"|t,
+        id: 'registrationMessage',
+        name: 'registrationMessage',
+        instructions: "Input your message"|t,
+        value: settings.registrationMessage,
+        rows: 5,
+        errors: settings.getErrors('registrationMessage')
+    }) 
+}}
+
+{{ forms.textField({
+        label: "Admin Message Subject"|t,
+        id: 'adminMessageSubject',
+        name: 'adminMessageSubject',
+        instructions: "Input your subject"|t,
+        value: settings.adminMessageSubject,
+        errors: settings.getErrors('adminMessageSubject')
+    }) 
+}}
+
+
+{{ forms.textarea({
+        label: "Admin Message"|t,
+        id: 'adminMessage',
+        name: 'adminMessage',
+        instructions: "Input your message"|t,
+        value: settings.adminMessage,
+        rows: 5,
+        errors: settings.getErrors('adminMessage')
+    }) 
+}}
+
+{{ forms.textField({
+        label: "Activation Message Subject"|t,
+        id: 'activationMessageSubject',
+        name: 'activationMessageSubject',
+        instructions: "Input your subject"|t,
+        value: settings.activationMessageSubject,
+        errors: settings.getErrors('activationMessageSubject')
+    }) 
+}}
+
+{{ forms.textarea({
+        label: "Activation Message"|t,
+        id: 'activationMessage',
+        name: 'activationMessage',
+        instructions: "Input your message"|t,
+        value: settings.activationMessage,
+        rows: 5,
+        errors: settings.getErrors('activationMessage')
+    }) 
+}}

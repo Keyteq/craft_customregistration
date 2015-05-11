@@ -28,16 +28,16 @@ class CustomRegistrationPlugin extends BasePlugin
                 foreach ($users as $admin) {
                   $email = new EmailModel();
                   $email->toEmail = $admin->email;
-                  $email->subject = 'New user registred on Skyss Profil Bok';
-                  $email->body    = 'New User registred: '.$user->firstname.' '.$user->lastname.'.<br>You can activate this account in the site administration panel.';
+                  $email->subject = $this->parseMessage($this->getSettings()->adminMessageSubject, $user->firstname, $user->lastname);
+                  $email->body    = $this->parseMessage($this->getSettings()->adminMessage, $user->firstname, $user->lastname);
 
                   craft()->email->sendEmail($email);
                 }
                 
                 $email = new EmailModel();
                 $email->toEmail = $user->email;
-                $email->subject = 'You have registred on Skyss Profil Bok';
-                $email->body    = 'You have succesfully registred on Skyss Profil Bok.<br>To continue, your account must be activated by an administrator.';
+                $email->subject = $this->parseMessage($this->getSettings()->registrationMessageSubject, $user->firstname, $user->lastname);
+                $email->body    = $this->parseMessage($this->getSettings()->registrationMessage, $user->firstname, $user->lastname);
 
                 craft()->email->sendEmail($email);
             }
@@ -49,8 +49,8 @@ class CustomRegistrationPlugin extends BasePlugin
           
           $email = new EmailModel();
           $email->toEmail = $user->email;
-          $email->subject = 'Your account on Skyss Profil Bok has been activated';
-          $email->body    = 'Your account has been activated by the administrator. You can log in.';
+          $email->subject = $this->parseMessage($this->getSettings()->activationMessageSubject, $user->firstname, $user->lastname);
+          $email->body    = $this->parseMessage($this->getSettings()->activationMessage, $user->firstname, $user->lastname);
           craft()->email->sendEmail($email);
         });
     }
@@ -75,4 +75,30 @@ class CustomRegistrationPlugin extends BasePlugin
         return 'http://www.smartmobilehouse.pl';
     }
     
+    protected function defineSettings()
+    {
+        return array(
+            'registrationMessage' => array(AttributeType::String, 'required' => false),
+            'registrationMessageSubject' => array(AttributeType::String, 'required' => false),
+            'adminMessage' => array(AttributeType::String, 'required' => false),
+            'adminMessageSubject' => array(AttributeType::String, 'required' => false),
+            'activationMessage' => array(AttributeType::String, 'required' => false),
+            'activationMessageSubject' => array(AttributeType::String, 'required' => false)
+        );
+    }
+    
+    public function getSettingsHtml()
+    {
+        return craft()->templates->render('customRegistration/_settings', array(
+            'settings' => $this->getSettings()
+       ));
+    }
+    
+    public function parseMessage($message, $firstname, $lastname)
+    {
+        $message = str_replace("{{firstName}}", $firstname, $message);
+        $message = str_replace("{{lastName}}", $lastname, $message);
+        
+        return $message;
+    }
 }
