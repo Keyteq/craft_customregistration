@@ -26,18 +26,18 @@ class CustomRegistrationPlugin extends BasePlugin
 
                 // Send mail to each Administrator
                 foreach ($users as $admin) {
-                  $email = new EmailModel();
-                  $email->toEmail = $admin->email;
-                  $email->subject = $this->parseMessage($this->getSettings()->adminMessageSubject, $user->firstname, $user->lastname, $user->business);
-                  $email->body    = $this->parseMessage($this->getSettings()->adminMessage, $user->firstname, $user->lastname, $user->business);
+                    $email = new EmailModel();
+                    $email->toEmail = $admin->email;
+                    $email->subject = $this->parseMessage($this->getSettings()->adminMessageSubject, $user->firstname, $user->lastname, $user->business, $user->reason);
+                    $email->body    = $this->parseMessage($this->getSettings()->adminMessage, $user->firstname, $user->lastname, $user->business, $user->reason);
 
-                  craft()->email->sendEmail($email);
+                    craft()->email->sendEmail($email);
                 }
                 
                 $email = new EmailModel();
                 $email->toEmail = $user->email;
-                $email->subject = $this->parseMessage($this->getSettings()->registrationMessageSubject, $user->firstname, $user->lastname, $user->business);
-                $email->body    = $this->parseMessage($this->getSettings()->registrationMessage, $user->firstname, $user->lastname, $user->business);
+                $email->subject = $this->parseMessage($this->getSettings()->registrationMessageSubject, $user->firstname, $user->lastname, $user->business, $user->reason);
+                $email->body    = $this->parseMessage($this->getSettings()->registrationMessage, $user->firstname, $user->lastname, $user->business, $user->reason);
 
                 craft()->email->sendEmail($email);
             }
@@ -49,8 +49,8 @@ class CustomRegistrationPlugin extends BasePlugin
           
           $email = new EmailModel();
           $email->toEmail = $user->email;
-          $email->subject = $this->parseMessage($this->getSettings()->activationMessageSubject, $user->firstname, $user->lastname, $user->business);
-          $email->body    = $this->parseMessage($this->getSettings()->activationMessage, $user->firstname, $user->lastname, $user->business);
+          $email->subject = $this->parseMessage($this->getSettings()->activationMessageSubject, $user->firstname, $user->lastname, $user->business, $user->reason);
+          $email->body    = $this->parseMessage($this->getSettings()->activationMessage, $user->firstname, $user->lastname, $user->business, $user->reason);
           craft()->email->sendEmail($email);
         });
     }
@@ -94,11 +94,12 @@ class CustomRegistrationPlugin extends BasePlugin
        ));
     }
     
-    public function parseMessage($message, $firstname, $lastname, $business)
+    public function parseMessage($message, $firstname, $lastname, $business, $reason)
     {
         $message = str_replace("{{firstName}}", $firstname, $message);
         $message = str_replace("{{lastName}}", $lastname, $message);
         $message = str_replace("{{business}}", $business, $message);
+        $message = str_replace("{{reason}}", $reason, $message);
         
         return $message;
     }

@@ -4,13 +4,14 @@ namespace Craft;
 class CustomRegistrationService extends BaseApplicationComponent 
 {
 
-    function registerUser($firstname, $lastname, $password, $email, $business)
+    function registerUser($firstname, $lastname, $password, $email, $business, $reason)
     {
       $lNewUser = new UserModel();
       $lNewUser->getContent()->setAttributes(array(
           'firstname' => $firstname,
           'lastname' => $lastname,
           'business' => $business,
+          'reason' => $reason,
       ));
       $lNewUser->pending = true;
       $lNewUser->email = $email;

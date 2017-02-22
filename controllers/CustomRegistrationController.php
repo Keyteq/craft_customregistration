@@ -18,8 +18,9 @@ class CustomRegistrationController extends BaseController {
     $email = craft()->request->getRequiredParam('email');
 
     $business = $fields['business'];
+    $reason = $fields['reason'];
 
-    $user = craft()->customRegistration->registerUser($firstname, $lastname, $password, $email, $business);
+    $user = craft()->customRegistration->registerUser($firstname, $lastname, $password, $email, $business, $reason);
 
     if ($user) {
       $this->redirectToPostedUrl($user);
