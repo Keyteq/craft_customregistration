@@ -14,7 +14,7 @@ class CustomRegistrationService extends BaseApplicationComponent
           'reason' => $reason,
       ));
       $lNewUser->pending = true;
-      $lNewUser->suspended = true;
+      $lNewUser->suspended = false;
       $lNewUser->email = $email;
       $lNewUser->username = $email;
       $lNewUser->password = $password;
